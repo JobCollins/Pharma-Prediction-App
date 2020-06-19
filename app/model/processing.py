@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import itertools
 import time
+from sklearn.preprocessing import RobustScaler()
 
 
 def DataProcessing(self):
@@ -16,7 +17,7 @@ def DataProcessing(self):
     products = list(data.PRODUCT.unique())
 
     for product in products:
-        d["df_{}".format(product)] = df[df['PRODUCT']==product]
+        product_dictionary["df_{}".format(product)] = data[data['PRODUCT']==product]
 
     return product_dictionary
 
