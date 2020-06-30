@@ -61,7 +61,7 @@
                 <div class="row justify-content-center text-center pt-6">
                     <div class="col-lg-8 col-xl-8">
                         <h1 class="display-2 mb-3">Pharma Prediction Tool</h1>
-                        <p class="lead px-md-6 mb-5">[Neumorphism inspired <strong>User Interface Kit</strong>] </p>
+                        <p class="lead px-md-6 mb-5">[Neumorphism inspired <strong>User Interface</strong>] </p>
                     </div>
                 </div>
             </div>
@@ -73,11 +73,19 @@
         <div class="container">
             <div class="row mb-4 mb-lg-5">
                 <div class="col-lg-4 col-sm-6">
+                    <!--card-->
+                    <div class="alert alert-secondary shadow-soft mb-4 mb-lg-5" role="alert">
+                        <span class="alert-inner--icon icon-lg"><span class="fas fa-exclamation-circle"></span></span>
+                        <span class="alert-heading">107!</span>
+                        <p>No. of Medicinal Drugs in dataset</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
                     <!--Category form-->
                     <div class="form-group">
                         <label class="my-1 mr-2" id="inlineFormCustomSelectPref">Medicinal Drug</label>
                         <select id="inlineFormCustomSelectPref" class="custom-select my-1 mr-sm-2">
-                            <option selected>Choose</option>
+                            <option selected>Choose...</option>
                             <option value="1">Actified Actal Tums 500MG</option>
                             <option value="2">Panadol Advanced 200MG</option>
                         </select>
@@ -116,10 +124,41 @@
                                     <span class="ml-1"><span class="fas fa-cog"></span></span>
                                 </button>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
+                <div class="card-body pt-2 px-0 px-lg-7">
+                    <p class="mb-5 lead">
+                        Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
+                    </p>
+                
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card bg-primary shadow-soft border-light px-4 py-5 text-center mb-5">
+                            <div class="card-header pb-0">
+                                <h2 class="h1 mb-3">Model Prediction vs Actual Trend for Drug</h2>
+                            </div>
+                            <div class="card-body pt-2 px-0 px-lg-7">
+                                <p class="mb-5 lead">
+                                    Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
+                                </p>
+                            
+                            </div>
+                            <div class="card-body pt-2 px-0 px-lg-7">
+                                <p class="mb-5 lead">
+                                    Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
+                                </p>
+                                
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-pill btn-primary" type="button">
+                                        Run Prediction
+                                        <span class="ml-1"><span class="fas fa-cog"></span></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
         
