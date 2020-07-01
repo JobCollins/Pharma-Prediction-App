@@ -30,3 +30,68 @@ def history():
     if request.method == 'POST':
         if form.validate():
             name = request.form['medicinal drug']
+
+            bar = plot_product(name)
+
+        else:
+            flash('Error: All Fields are Required')
+
+    return render_template('app.html', form=form, plot=bar)
+
+
+def plot_product(name):
+
+    new_data, date = readFile()
+
+    # plt.figure(figsize=(16,4))
+    
+    # plt.plot(date, new_data[name])
+    # plt.xlabel('Time')
+    # plt.ylabel('Sale')
+    # plt.title(f'Sales for {name}')
+    # plt.show() 
+
+    data = [
+        go.Scatter(
+            x=date,
+            y=new_data[name],
+            mode='lines+markers'
+        )
+    ]
+
+    layout = go.Layout(
+        title=go.layout.Title(
+            text='Historical Trend Graph',
+            xref='paper',
+            x=0
+        ),
+        xaxis=go.layout.XAxis(
+            title=go.layout.xaxis.Title(
+                text='Months',
+                font=dict(
+                    family='Roboto',
+                    size=18,
+                    color='#7f7f7f'
+                )
+            )
+        ),
+        yaxis=go.layout.YAxis(
+            title=go.layout.yaxis.Title(
+                text='Sale Qty',
+                font=dict(
+                    family='Roboto',
+                    size=18,
+                    color='#7f7f7f'
+                )
+            )
+        )
+    )
+    fig = go.Figure(data=data, layout=layout)
+
+    graph = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return graph
+
+
+if __name__ == "__main__":
+    app.run(port=3000, debug=True)
