@@ -13,12 +13,12 @@ def readFile():
 
     date = new_data.index.values
 
-    return new_data
+    return new_data, date
 
 
 def plot_product(name):
 
-    new_data = readFile()
+    new_data, date = readFile()
 
     plt.figure(figsize=(16,4))
     

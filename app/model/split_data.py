@@ -3,7 +3,7 @@ from processing import readFile
 import matplotlib.pyplot as plt
 
 
-new_data = readFile()
+new_data, date = readFile()
 
 def split_set():
 
