@@ -84,6 +84,8 @@ def plot_product(name):
         )
     )
     fig = go.Figure(data=data, layout=layout)
+    fig.layout.plot_bgcolor = 'rgba(230, 236, 245, 0.1)'
+    fig.layout.paper_bgcolor = 'rgba(230, 236, 245, 0.1)'
 
     graph = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
