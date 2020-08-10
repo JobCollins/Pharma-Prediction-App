@@ -10,7 +10,7 @@ def readFile():
     new_data = data.pivot_table(index='Month', columns='PRODUCT', values='Sale')
     new_data.columns.name = None
 
-    date = new_data.index.values
+    date = new_data.index.to_pydatetime()
 
     return new_data, date
 

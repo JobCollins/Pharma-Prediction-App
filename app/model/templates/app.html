@@ -124,39 +124,23 @@
                         <div class="card-header pb-0">
                             <h2 class="h1 mb-3">History Trend for Drug</h2>
                         </div>
-                        <div class="card-body pt-2 px-0 px-lg-7">
-                            <p class="mb-5 lead">
-                                Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
-                            </p>
-                        
-                        </div>
-                        <div class="card-body pt-2 px-0 px-lg-7">
-                            <p class="mb-5 lead">
-                                Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
-                            </p>
-                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-                            <div class="chart" id="bargraph">
-                                <script>
-                                    var graphs = {{plot | safe}};
-                                    Plotly.plot('bargraph',graphs,{});
-                                </script>
-                            </div>
-                            
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-pill btn-primary" type="button">
-                                    Run Prediction
-                                    <span class="ml-1"><span class="fas fa-cog"></span></span>
-                                </button>
-                            </div>
+                        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                        <div class="chart" id="bargraph">
+                            <script>
+                                var graphs = {{plot | safe}};
+                                Plotly.plot('bargraph',graphs,{});
+                            </script>
                         </div>
                     </div>
                 </div>
                 <div class="card-body pt-2 px-0 px-lg-7">
-                    <p class="mb-5 lead">
-                        Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
-                    </p>
-                
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-pill btn-primary" type="button">
+                            Run Prediction
+                            <span class="ml-1"><span class="fas fa-cog"></span></span>
+                        </button>
+                    </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-12">
