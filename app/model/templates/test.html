@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dropdown</title>
+</head>
+<body>
+<select name= colours method="GET" action="/">
+    {% for choice in choices %}
+    <option value= "{{choice}}" SELECTED>{{choice[1]}}</option>"
+    {% endfor %}
+</select>
+
+</select>
+</body>
+</html>

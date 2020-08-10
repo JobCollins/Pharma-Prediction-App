@@ -25,6 +25,7 @@ class PredictionForm(Form):
 
 @app.route("/", methods=['GET', 'POST'])
 def history():
+    choices = list(zip(products, products_copy))
     form = PredictionForm(request.form)
     bar = None
     if request.method == 'POST':
@@ -35,7 +36,7 @@ def history():
         else:
             flash('Error: All Fields are Required')
 
-    return render_template('app.html', form=form, plot=bar)
+    return render_template('app.html', form=form, plot=bar, choices=choices)
 
 
 def plot_product(name):

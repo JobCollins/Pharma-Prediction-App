@@ -87,15 +87,13 @@
                         {{ form.options }}
                         <div class="form-group">
                             <label for="medicinal drug" class="my-1 mr-2" id="inlineFormCustomSelectPref">Medicinal Drug</label>
-                            <select name ="name" id="inlineFormCustomSelectPref" class="custom-select my-1 mr-sm-2">
-                                <ul>
-                                    {% for option in form.options %}
-                                    <li>{{ option }} </li>
-                                    {% endfor %}
-                                </ul>
+                            <select name ="medicine" method="GET" id="inlineFormCustomSelectPref" class="custom-select my-1 mr-sm-2">
                                 <!-- <option selected>Choose...</option>
                                 <option value="1">Actified Actal Tums 500MG</option>
                                 <option value="2">Panadol Advanced 200MG</option> -->
+                                {% for choice in choices %}
+                                <option value= "{{choice}}" SELECTED>{{choice[1]}}</option>"
+                                {% endfor %}
 
                             </select>
                         </div>
