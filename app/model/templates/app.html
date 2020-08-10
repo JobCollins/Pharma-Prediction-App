@@ -92,7 +92,7 @@
                                 <option value="1">Actified Actal Tums 500MG</option>
                                 <option value="2">Panadol Advanced 200MG</option> -->
                                 {% for choice in choices %}
-                                <option value= "{{choice}}" SELECTED>{{choice[1]}}</option>"
+                                <option value= "{{choice}}" SELECTED>{{choice}}</option>"
                                 {% endfor %}
 
                             </select>
@@ -108,15 +108,15 @@
                     </form>
                     
                 </div>
-                <div class="col-lg-4 col-sm-6">
+                <!-- <div class="col-lg-4 col-sm-6">
                     <div class="form-group" style="padding-top: 32px;">
-                        <!--History and seasonality button-->
-                        <button class="btn btn-pill btn-primary" type="button">
+                        History and seasonality button-->
+                        <!-- <button class="btn btn-pill btn-primary" type="button">
                             Run History & Seasonality
                             <span class="ml-1"><span class="fas fa-cog"></span></span>
                         </button>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -134,6 +134,14 @@
                             <p class="mb-5 lead">
                                 Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
                             </p>
+                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                            <div class="chart" id="bargraph">
+                                <script>
+                                    var graphs = {{plot | safe}};
+                                    Plotly.plot('bargraph',graphs,{});
+                                </script>
+                            </div>
                             
                             <div class="d-flex align-items-center">
                                 <button class="btn btn-pill btn-primary" type="button">
