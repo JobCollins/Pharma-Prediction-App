@@ -44,6 +44,8 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
+<link type="text/css" href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+
 <!-- Fontawesome -->
 <link type="text/css" href="{{ url_for('static', filename='vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 
@@ -92,7 +94,7 @@
                                 <option value="1">Actified Actal Tums 500MG</option>
                                 <option value="2">Panadol Advanced 200MG</option> -->
                                 {% for choice in choices %}
-                                <option value= "{{choice}}" SELECTED>{{choice}}</option>"
+                                <option value= "{{choice}}" {% if choice == "medicine" %} selected {% endif %}>{{choice}}</option>"
                                 {% endfor %}
 
                             </select>
@@ -101,7 +103,7 @@
                         <div class="form-group" style="padding-top: 32px;">
                             <!--History and seasonality button-->
                             <button class="btn btn-pill btn-primary" type="submit">
-                                Run History & Seasonality
+                                Run Predictions
                                 <span class="ml-1"><span class="fas fa-cog"></span></span>
                             </button>
                         </div>
@@ -147,13 +149,15 @@
                     <div class="col-12">
                         <div class="card bg-primary shadow-soft border-light px-4 py-5 text-center mb-5">
                             <div class="card-header pb-0">
-                                <h2 class="h1 mb-3">Model Prediction vs Actual Trend for Drug</h2>
+                                <h2 class="h1 mb-3">Seasonality</h2>
                             </div>
-                            <div class="card-body pt-2 px-0 px-lg-7">
-                                <p class="mb-5 lead">
-                                    Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
-                                </p>
-                            
+                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                            <div class="chart" id="seasongrsph" style="width:1200px;height:600px;">
+                                <script>
+                                    var seasons = {{seasonality | safe}};
+                                    Plotly.plot('seasongrsph',seasons,{});
+                                </script>
                             </div>
                             <div class="card-body pt-2 px-0 px-lg-7">
                                 <p class="mb-5 lead">
@@ -169,7 +173,70 @@
                             </div>
                         </div>
                     </div>
-            </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card bg-primary shadow-soft border-light px-4 py-5 text-center mb-5">
+                            <div class="card-header pb-0">
+                                <h2 class="h1 mb-3">Trend</h2>
+                            </div>
+                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                            <div class="chart" id="trend" style="width:1200px;height:600px;">
+                                <script>
+                                    var trend = {{trend | safe}};
+                                    Plotly.plot('trend',trend,{});
+                                </script>
+                            </div>
+                            <div class="card-body pt-2 px-0 px-lg-7">
+                                <p class="mb-5 lead">
+                                    Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
+                                </p>
+                                
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-pill btn-primary" type="button">
+                                        Run Prediction
+                                        <span class="ml-1"><span class="fas fa-cog"></span></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card bg-primary shadow-soft border-light px-4 py-5 text-center mb-5">
+                            <div class="card-header pb-0">
+                                <h2 class="h1 mb-3">Actual vs Prediction</h2>
+                            </div>
+                            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                            <div class="chart" id="prediction" style="width:1200px;height:600px;">
+                                <script>
+                                    var preds = {{predictions | safe}};
+                                    Plotly.plot('prediction',preds,{});
+                                </script>
+                                
+                            </div>
+                            <div class="card-body pt-2 px-0 px-lg-7">
+                                <p class="mb-5 lead">
+                                    Need to figure out how plotly graph will be fed into this card once tha above button is hit, and visualization is available.
+                                </p>
+                                
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-pill btn-primary" type="button">
+                                        Run Prediction
+                                        <span class="ml-1"><span class="fas fa-cog"></span></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
         </div>
         
     </div>

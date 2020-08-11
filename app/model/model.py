@@ -45,6 +45,7 @@ def model_performance(name):
     print(f'MSE Error: {arima_mse_error}\nRMSE Error: {arima_rmse_error}\nMean: {mean_value}')
     
     model_df = pd.DataFrame(arima_pred)
+    model_df = model_df.reset_index()
     model_df['Actual'] = test[name]
     model_df['ActualvsARIMA'] = model_df['ARIMA Predictions'] - model_df['Actual']
     

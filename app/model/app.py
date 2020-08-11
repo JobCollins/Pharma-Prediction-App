@@ -6,6 +6,9 @@ import plotly
 import plotly.graph_objs as go
 
 from processing import readFile
+from seasonality import plot_seasonality
+from trend import plot_trend
+from predictions import plot_predictions
 
 DEBUG = True
 
@@ -33,20 +36,18 @@ def history():
 
         bar = plot_product(name)
 
-    return render_template('app.html', form=form, plot=bar, choices=choices)
+        season_graph = plot_seasonality(name)
+
+        trend_graph = plot_trend(name)
+
+        predictions = plot_predictions(name)
+
+    return render_template('app.html', form=form, plot=bar, choices=choices, seasonality=season_graph, trend = trend_graph, predictions=predictions)
 
 
 def plot_product(name):
 
     new_data, date = readFile()
-
-    # plt.figure(figsize=(16,4))
-    
-    # plt.plot(date, new_data[name])
-    # plt.xlabel('Time')
-    # plt.ylabel('Sale')
-    # plt.title(f'Sales for {name}')
-    # plt.show() 
 
     data = [
         go.Scatter(
@@ -58,7 +59,7 @@ def plot_product(name):
 
     layout = go.Layout(
         title=go.layout.Title(
-            text='Historical Trend Graph',
+            text='Historical Trend Graph for {}'.format(name),
             xref='paper',
             x=0
         ),
