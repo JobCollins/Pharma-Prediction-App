@@ -13,6 +13,8 @@ The choice colors are intentional to create a medical/laboratory feel.
 
 Here is the screenshot
 
+![screenshot](screenshot.png)
+
 ## Prediction Algorithm
 As of now, the app uses ARIMA which is not as accurate in predictions. Evaluation of different models is currently in progress, however.
 
