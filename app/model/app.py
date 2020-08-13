@@ -31,6 +31,9 @@ def history():
     choices = list(new_data.columns)
     form = PredictionForm(request.form)
     bar = None
+    season_graph = None
+    trend_graph = None
+    predictions = None
     if request.method == 'POST':
         name = request.form['medicine']
 
