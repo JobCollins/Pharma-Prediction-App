@@ -16,6 +16,9 @@ Here is the screenshot
 ## Prediction Algorithm
 As of now, the app uses ARIMA which is not as accurate in predictions. Evaluation of different models is currently in progress, however.
 
+## Software Engineering Practices: Modularization
+The code in this app has been modularized i.e. has been divided into modules for splitting data, seasonality, processing, the model, and predictions run. The modules are imported for use across different modules.
+
 ## How to Run
   1. Clone or download the repository.
   2. `cd` into the `app/model` directory.
