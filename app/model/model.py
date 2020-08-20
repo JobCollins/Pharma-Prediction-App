@@ -1,53 +1,99 @@
 from processing import readFile
-from split_data import split_set
-
-import pandas as pd 
-
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from statsmodels.graphics.tsaplots import plot_acf,plot_pacf 
-from statsmodels.tsa.seasonal import seasonal_decompose 
-from pmdarima import auto_arima                        
-from sklearn.metrics import mean_squared_error
-from statsmodels.tools.eval_measures import rmse
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+import statsmodels.api as sm
+import matplotlib
 import matplotlib.pyplot as plt
+import itertools
 
 new_data, date = readFile()
 
-train_date, train, test_date, test = split_set()
+p = d = q = range(0, 2)
+pdq = list(itertools.product(p,d,q))
+seasonal_pdq = [(x[0], x[1], x[2], 12) for x in list(itertools.product(p, d, q))]
+param_search = {}
 
-def plot_seasonality(name):
-    a = seasonal_decompose(new_data[name], model = "add")
-    plt.figure(figsize = (16,7))
-    a.seasonal.plot()
+def parameter_search(name):
+    for param in pdq:
+        for param_seasonal in seasonal_pdq:
+            try:
+                mod = sm.tsa.statespace.SARIMAX(new_data[name].resample('MS').mean(),
+                                                order=param,
+                                                seasonal_order=param_seasonal,
+                                                enforce_stationarity=False,
+                                                enforce_invertibility=False)
 
-def build_model(name):
+                results = mod.fit()
+    #             param_search['ARIMA{}x{}12 - AIC:{}'.format(param, param_seasonal)] = results.aic
+#                 print('ARIMA{}x{}12 - AIC:{}'.format(param, param_seasonal, results.aic))
+                key = 'ARIMA{}x{}12 - AIC:{}'.format(param, param_seasonal, results.aic)
+                param_search[key] = results.aic
+            except:
+                continue
+    return param_search
 
-    auto_arima(new_data[name], seasonal=True, m=12,max_p=7, max_d=5,max_q=7, max_P=4, max_D=4,max_Q=4).summary()
-    arima_model = SARIMAX(train[name], order = (2,1,1), seasonal_order = (4,0,3,12))
-    arima_result = arima_model.fit()
-#     arima_result.summary()
+def min_AIC(dictionary):
+    key_min = min(param_search.keys(), key=(lambda k: param_search[k]))
+    orders = tuple(map(int, key_min[6:13].split(', ')))
+    season = tuple(map(int, key_min[16:27].split(', ')))
     
-    arima_pred = arima_result.predict(start = len(train), end = len(new_data)-1, typ="levels").rename("ARIMA Predictions")
-    
-    test[name].plot(figsize = (16,5), legend=True)
-    arima_pred.plot(legend = True)
-    
-    return arima_pred
+    return orders, season
 
-def model_performance(name):
+def fit_model(name):
+    param_search = parameter_search(name)
+    orders, season = min_AIC(param_search)
+    mod = sm.tsa.statespace.SARIMAX(new_data[name].resample('MS').mean(),
+                                order=orders,
+                                seasonal_order=season,
+                                enforce_stationarity=False,
+                                enforce_invertibility=False)
+    results = mod.fit()
     
-    arima_pred = build_model(name)
-    
-    arima_rmse_error = rmse(test[name], arima_pred)
-    arima_mse_error = arima_rmse_error**2
-    mean_value = new_data[name].mean()
+    return results
 
-    print(f'MSE Error: {arima_mse_error}\nRMSE Error: {arima_rmse_error}\nMean: {mean_value}')
-    
-    model_df = pd.DataFrame(arima_pred)
-    model_df = model_df.reset_index()
-    model_df['Actual'] = test[name]
-    model_df['ActualvsARIMA'] = model_df['ARIMA Predictions'] - model_df['Actual']
-    
-    return model_df
+def validate_forecast(name):
+    results = fit_model(name)
+    pred = results.get_prediction(start=pd.to_datetime('2018-01-01'), dynamic=False)
+    pred_ci = pred.conf_int()
+    y=new_data[name].resample('MS').mean()
+    ax = y['2015':].plot(label='observed')
+    pred.predicted_mean.plot(ax=ax, label='One-step ahead Forecast', alpha=.7, figsize=(14, 7))
+    ax.fill_between(pred_ci.index,
+                    pred_ci.iloc[:, 0],
+                    pred_ci.iloc[:, 1], color='k', alpha=.2)
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Drug Sales')
+    plt.legend()
+    plt.show()
+    y_forecasted = pred.predicted_mean
+    y_truth = y['2017-01-01':]
 
+    # Compute the mean square error
+    mse = ((y_forecasted - y_truth) ** 2).mean()
+    rmse = round(np.sqrt(mse), 2)
+    
+    return mse, rmse
+
+def predictions(name):
+    results = fit_model(name)
+    pred_uc = results.get_forecast(steps=10)
+    pred_ci = pred_uc.conf_int()
+    
+    y = new_data[name]
+    # ax = y.plot(label='observed', figsize=(14, 7))
+    # pred_uc.predicted_mean.plot(ax=ax, label='Forecast')
+    # ax.fill_between(pred_ci.index,
+    #                 pred_ci.iloc[:, 0],
+    #                 pred_ci.iloc[:, 1], color='k', alpha=.25)
+    # ax.set_xlabel('Date')
+    # ax.set_ylabel('Drug Sales')
+
+    # plt.legend()
+    # # plt.show()
+    
+    pred_values = pred_uc.predicted_mean
+    predict_df = pd.DataFrame(pred_values)
+    predict_df.columns = ['Prediction']
+    
+    return predict_df

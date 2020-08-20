@@ -4,29 +4,19 @@ import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 
 
-from model import model_performance
+from model import predictions
 
 
 def plot_predictions(name):
     
-    predictions = model_performance(name)
+    df = predictions(name)
 
     data = [
         go.Scatter(
-            x=predictions.index,
-            y=predictions['ARIMA Predictions'],
+            x=df.index,
+            y=df['Prediction'],
             mode='lines+markers'
         ),
-        go.Scatter(
-            x=predictions.index,
-            y=predictions['Actual'],
-            mode='lines+markers',
-            line=dict(
-                color='#f1c40f',
-                dash='dash',
-                width=4
-            )  
-        )
     ]
 
     layout = go.Layout(
