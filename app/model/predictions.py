@@ -3,9 +3,10 @@ import plotly
 import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 
-
+from processing import readFile
 from model import predictions
 
+new_data, date = readFile()
 
 def plot_predictions(name):
     
@@ -15,7 +16,14 @@ def plot_predictions(name):
         go.Scatter(
             x=df.index,
             y=df['Prediction'],
-            mode='lines+markers'
+            mode='lines+markers',
+            name = 'Forecast'
+        ),
+        go.Scatter(
+            x=new_data.index,
+            y=new_data[name],
+            mode='lines+markers',
+            name = 'History'
         ),
     ]
 
