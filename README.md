@@ -56,5 +56,5 @@ The code in this app has been modularized i.e. has been divided into modules for
   2. `cd` into the `app/model` directory.
   3. Run `pip install -r requirements.txt`
   4. Once done, in a terminal, run `python app.py`
-  5. `Ctrl+click` the address in the terminal.
+  5. `Ctrl+click` the address in the terminal to launch the application
   
